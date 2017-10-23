@@ -389,3 +389,45 @@ Ahora podremos acceder, utilizando un navegador, a la dirección _http://onefron
 ![Pantalla de acceso a Sunstone](img/02_login_sunstone.png)
 
 Aquí podremos hacer _login_ utilizando el usuario _oneadmin_ y la clave que aparece en el fichero _$HOME/.one/one_auth_. En el caso del ejemplo anterior, la clave sería _Sadej4bladIf_.
+
+## Incorporar onenode01 a ONE
+Una vez tenemos instalado ONE, podemos incorporar el nodo _onenode01_ a la plataforma, para que sea considerado por ONE para alojar MVs.
+
+Para ello, en el interfaz Sunstone iremos a _Infrastructure_ > _Hosts_. Esta pantalla muestra los nodos que hay en la infraestructura que, como está recién instalada, aparecerá vacía como en la figura siguiente.
+
+![Añadiendo el primer host](img/02_hosts_vacios.png)
+
+Aquí pulsaremos en el icono "+", que nos mostrará el interfaz para añadir el nodo, que se muestra en la siguiente figura:
+
+![Datos del nuevo host](img/02_crear_host.png)
+
+Aquí deberemos darle el nombre del nodo (aquel con el que podemos hacer _ssh_ desde _onefront00_). En nuestro caso será _onenode01_. Y seleccionaremos el tipo de hipervisor que utiliza (en nuestro caso, _KVM_) y el cluster al que pertenece (de momento sólo tenemos el cluster por defecto).
+
+Para confirmar la creación, pulsaremos el botón "Crear" y nos mostrará la lista de _hosts_, que ya incluye el nodo nuevo en estado _INIT_:
+
+![Nodo recién creado](img/02_nodo_init.png)
+
+En estos momentos, ONE estará consultando el estado del nodo y sus características y, tras un periodo de tiempo, podremos ver que pasa a estado _ON_ (probablemente deberemos refrescar la lista de nodos, pulsando el botón "refrescar" junto al botón "+").
+
+![Nodo monitorizado](img/02_nodo_on.png)
+
+Una vez tengamos el nodo en este estado, podremos consultar su estado, características, MVs alojadas, etc., pulsando sobre él en la lista de nodos.
+
+![Detalles del nodo](img/02_nodo_detalles.png)
+
+### Alternativa en CLI
+Podríamos haber incorporado el nodo utilizando el interfaz de línea de comandos (CLI).
+
+Para ello, desde el nodo _onehost_ podríamos haber ejecutado el comando
+
+```bash
+$ onehost create onenode01 -i kvm -v kvm
+```
+
+Una vez creado, podríamos consultar el estado de los nodos de la infraestructura con el comando ```onehost list``` y obtendríamos una salida similar a la de la siguiente figura:
+
+![Nodo recién creado en el CLI](img/02_onehost_list.png)
+
+Tras un tiempo, una vez ONE haya monitorizado el _host_, podremos ejecutar el comando ```onehost list``` de nuevo y ver que cambia a estado _ON_. A partir de entonces, podremos consultar los detalles del nodo con el comando ```onehost show onenode01```, obteniendo una salida similar a la siguiente.
+
+![Detalles del nodo en el CLI](img/02_onehost_show.png)
