@@ -37,3 +37,23 @@ A continuación iremos a los _settings_ del usuario, y en la sección _Auth_ pod
 > **NOTA:** tendremos que tener mucha precaución en el momento de pegar la contraseña, evitando que se hayan introducido retornos de línea inesperados.
 
 ## Verificación de la clave pública
+
+Para verificar que la clave pública se ha incluido correctamente en la información del usuario, deberemos crear un template de MV que incluya una imagen de disco que incorpore el paquete _onevm-context_ y que tenga acceso a la red privada. El último template que hemos creado nos valdrá para nuestro propósito.
+
+Abriremos los detalles del template y seleccionaremos la sección "Context". Ahí nos aseguraremos de que está marcada la opción "Add SSH contextualizacion", como aparece en la siguiente figura:
+
+![SSH contextualization debe estar marcado en el template](img/03b_template_sshcontext.png)
+
+Una vez actualizado, pulsaremos el botón "update", y crearemos una instancia de ese template.
+
+Cuando la MV haya finalizado el arranque, anotaremos la dirección IP de la máquina (en nuestro caso, 10.10.0.4) e iremos a _onefront00_. Desde el directorio donde hemos generado la clave _mynewkey_ haremos _ssh_ como root a dicha IP, pero indicando que utilice como identidad el fichero de nuestra clave privada:
+
+```bash
+$ ssh -i mynewkey root@10.10.0.4
+```
+
+Si todo ha ido correctamente, el comando _ssh_ nos solicitará que aceptemos el _fingerprint SSL_ del nodo y entraremos sin necesidad de contraseña.
+
+![SSH sin contraseña satisfactorio](img/03b_ssh_sinpass.png)
+
+
